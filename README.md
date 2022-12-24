@@ -5,7 +5,7 @@
 
 ### Services
 |      Service Name      |      Port      |
-|------------------------|-----------------|
+|------------------------|----------------|
 | OpenSSH                | 22, 80, 443    |
 | Dropbear               | 109, 143, 443  |
 | Dropbear Websocket     | 109, 443       |
@@ -32,7 +32,7 @@
 | Proxy Squid            | 3128           |
 | BadVPN                 | 7100-7300      |
 
-### Faetures
+### Features
 - Auto Delete Expired Account
 - Auto Reboot On 05:00 GMT +7
 - Backup Data & Restore Data
