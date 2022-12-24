@@ -32,6 +32,9 @@
 | Proxy Squid            | 3128           |
 | BadVPN                 | 7100-7300      |
 
-### Services Port
-- HTTPS : 443
-- HTTP  : 80
+### Faetures
+- Auto Delete Expired Account
+- Auto Reboot On 05:00 GMT +7
+- Backup Data & Restore Data
+- Fully Automatic Script
+- Timezone Asia/Jakarta (GMT +7)
