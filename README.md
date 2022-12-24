@@ -5,6 +5,7 @@
 
 ### Services
 |      Service Name      |      Port      |
+|-----------------------------------------|
 | OpenSSH                | 22, 80, 443    |
 | Dropbear               | 109, 143, 443  |
 | Dropbear Websocket     | 109, 443       |
