@@ -5,25 +5,25 @@ myIP=$(wget -qO- ipinfo.io/ip);
 myIP2="s/xxxxxxxxx/$myIP/g";
 
 function ovpn_install() {
-    rm -rf /etc/openvpn
-    mkdir -p /etc/openvpn
-    wget -O /etc/openvpn/vpn.zip "https://raw.githubusercontent.com/rullpqh/Autoscript-vps/main/fodder/openvpn/vpn.zip" >/dev/null 2>&1 
-    unzip -d /etc/openvpn/ /etc/openvpn/vpn.zip
-    rm -f /etc/openvpn/vpn.zip
-    chown -R root:root /etc/openvpn/server/easy-rsa/
+  rm -rf /etc/openvpn
+  mkdir -p /etc/openvpn
+  wget -O /etc/openvpn/vpn.zip "https://raw.githubusercontent.com/danss-deus/nebula-asc/main/res/openvpn/vpn.zip" >/dev/null 2>&1 
+  unzip -d /etc/openvpn/ /etc/openvpn/vpn.zip
+  rm -f /etc/openvpn/vpn.zip
+  chown -R root:root /etc/openvpn/server/easy-rsa/
 }
 function config_easy() {
-    cd
-    mkdir -p /usr/lib/openvpn/
-    cp /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so /usr/lib/openvpn/openvpn-plugin-auth-pam.so
-    sed -i 's/#AUTOSTART="all"/AUTOSTART="all"/g' /etc/default/openvpn
-    systemctl enable --now openvpn-server@server-tcp
-    systemctl enable --now openvpn-server@server-udp
-    /etc/init.d/openvpn restart
+  cd
+  mkdir -p /usr/lib/openvpn/
+  cp /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so /usr/lib/openvpn/openvpn-plugin-auth-pam.so
+  sed -i 's/#AUTOSTART="all"/AUTOSTART="all"/g' /etc/default/openvpn
+  systemctl enable --now openvpn-server@server-tcp
+  systemctl enable --now openvpn-server@server-udp
+  /etc/init.d/openvpn restart
 }
 function make_follow() {
-    echo 1 > /proc/sys/net/ipv4/ip_forward
-    sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+  echo 1 > /proc/sys/net/ipv4/ip_forward
+  sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 cat > /etc/openvpn/tcp.ovpn <<-END
 client
 dev tun
@@ -39,7 +39,7 @@ comp-lzo
 verb 3
 END
     
-    sed -i $MYIP2 /etc/openvpn/tcp.ovpn;
+  sed -i $myIP2 /etc/openvpn/tcp.ovpn;
 cat > /etc/openvpn/udp.ovpn <<-END
 client
 dev tun
@@ -55,7 +55,7 @@ comp-lzo
 verb 3
 END
     
-    sed -i $MYIP2 /etc/openvpn/udp.ovpn;
+  sed -i $myIP2 /etc/openvpn/udp.ovpn;
 cat > /etc/openvpn/ws-ssl.ovpn <<-END
 client
 dev tun
@@ -70,7 +70,7 @@ auth-user-pass
 comp-lzo
 verb 3
 END
-    sed -i $MYIP2 /etc/openvpn/ws-ssl.ovpn;
+  sed -i $myIP2 /etc/openvpn/ws-ssl.ovpn;
 cat > /etc/openvpn/ssl.ovpn <<-END
 client
 dev tun
@@ -85,23 +85,23 @@ auth-user-pass
 comp-lzo
 verb 3
 END
-    sed -i $MYIP2 /etc/openvpn/ssl.ovpn;
+  sed -i $myIP2 /etc/openvpn/ssl.ovpn;
 }
 function cert_ovpn() {
-    echo '<ca>' >> /etc/openvpn/tcp.ovpn
-    cat /etc/openvpn/server/ca.crt >> /etc/openvpn/tcp.ovpn
-    echo '</ca>' >> /etc/openvpn/tcp.ovpn
-    cp /etc/openvpn/tcp.ovpn /var/www/html/tcp.ovpn
-    echo '<ca>' >> /etc/openvpn/udp.ovpn
-    cat /etc/openvpn/server/ca.crt >> /etc/openvpn/udp.ovpn
-    echo '</ca>' >> /etc/openvpn/udp.ovpn
-    cp /etc/openvpn/udp.ovpn /var/www/html/udp.ovpn
-    echo '<ca>' >> /etc/openvpn/ws-ssl.ovpn
-    cat /etc/openvpn/server/ca.crt >> /etc/openvpn/ws-ssl.ovpn
-    echo '</ca>' >> /etc/openvpn/ws-ssl.ovpn
-    cp /etc/openvpn/ws-ssl.ovpn /var/www/html/ws-ssl.ovpn
-    echo '</ca>' >> /etc/openvpn/ssl.ovpn
-    cp /etc/openvpn/ws-ssl.ovpn /var/www/html/ssl.ovpn
+  echo '<ca>' >> /etc/openvpn/tcp.ovpn
+  cat /etc/openvpn/server/ca.crt >> /etc/openvpn/tcp.ovpn
+  echo '</ca>' >> /etc/openvpn/tcp.ovpn
+  cp /etc/openvpn/tcp.ovpn /var/www/html/tcp.ovpn
+  echo '<ca>' >> /etc/openvpn/udp.ovpn
+  cat /etc/openvpn/server/ca.crt >> /etc/openvpn/udp.ovpn
+  echo '</ca>' >> /etc/openvpn/udp.ovpn
+  cp /etc/openvpn/udp.ovpn /var/www/html/udp.ovpn
+  echo '<ca>' >> /etc/openvpn/ws-ssl.ovpn
+  cat /etc/openvpn/server/ca.crt >> /etc/openvpn/ws-ssl.ovpn
+  echo '</ca>' >> /etc/openvpn/ws-ssl.ovpn
+  cp /etc/openvpn/ws-ssl.ovpn /var/www/html/ws-ssl.ovpn
+  echo '</ca>' >> /etc/openvpn/ssl.ovpn
+  cp /etc/openvpn/ws-ssl.ovpn /var/www/html/ssl.ovpn
 }
 function install_ovpn() {
   ovpn_install
